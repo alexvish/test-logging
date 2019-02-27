@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- Appender to log to console in plain text format -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- Minimum logging level to be presented in the console logs-->
+            <level>DEBUG</level>
+        </filter>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <!-- Assign logger fields to JSON object -->
+                <pattern>
+                    <pattern>
+                        {
+                            "level": "%level",
+                            "message": "%message",
+                            "thread": "%thread",
+                            "logger": "%logger"
+                        }
+                    </pattern>
+                </pattern>
+                <!-- Log all StructuredArgument instances -->
+                <arguments/>
+                <!-- Log all MDC fields -->
+                <mdc/>
+                <!-- Include Exception stack traces -->
+                <stackTrace/>
+
+            </providers>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
